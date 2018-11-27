@@ -1,65 +1,92 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>ADS Console</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.5.9/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/5.5.9/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.5.9/firebase-database.js"></script>
-    <script defer src="/__/firebase/5.5.9/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.5.9/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+  <link rel="stylesheet" href="./assets/css/angular-csp.css">
+  <link rel="stylesheet" href="./assets/css/angular-material.min.css">
+  <link rel="stylesheet" href="./assets/css/spinner.css">
+  <link rel="stylesheet" href="./assets/css/font-awesome-v5.4.2.css">
+</head>
+<body>
+
+<div ng-app="FDModule" layout-fill>
+  <div ng-layout="column" layout-fill>
+
+    <div ng-layout="row">
+      <md-toolbar class="md-hue-2" ng-controller="ToolbarController" ng-init="listenAuthStateChanged()">
+        <div class="md-toolbar-tools" >
+          <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+            <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
+          </md-button>
+
+          <h2 flex md-truncate>{{ title }}</h2>
+
+          <div ng-controller="LoginController" ng-init="listenAuthStateChanged()">
+            <md-button ng-controller="DeployController" ng-if="isUserSignedIn" class="md-icon-button" aria-label="Favorite" ng-click="onBtnPublishClicked()">
+              <!--<md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>-->
+              <i class="fas fa-upload"></i>
+            </md-button>
+
+            <md-button ng-if="isUserSignedIn" class="md-icon-button" aria-label="More" ng-click="signOutUser()">
+              <!--<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>-->
+              <i class="fas fa-user-shield"></i>
+            </md-button>
+            <md-button ng-if="!isUserSignedIn" class="md-icon-button" aria-label="More" ng-click="signInUser()">
+              <!--<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>-->
+              <i class="fas fa-user-times"></i>
+            </md-button>
+          </div>
+        </div>
+      </md-toolbar>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <div id="spinnerView">
+      <div class="loading-background">
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+      </div>
+      <div class="spinner">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div class="loading-text">
+        잠시만요! <br>지금 아주 중요한 무언가가 돌아가고 있어요!
+        <footer class="spinner-created-by">
+          spinner created by https://loading.io/css/
+        </footer>
+      </div>
+    </div>
+
+    <md-content style="height: calc(100% - 64px);" ng-view layout="column" layout-padding>
+
+    </md-content>
+  </div>
+</div>
+
+<script src="./assets/lib/jquery-3.3.1.js"></script>
+
+<script src="./assets/lib/angular.js"></script>
+<script src="./assets/lib/angular-animate.js"></script>
+<script src="./assets/lib/angular-aria.js"></script>
+<script src="./assets/lib/angular-cookies.js"></script>
+<script src="./assets/lib/angular-loader.js"></script>
+<script src="./assets/lib/angular-message-format.js"></script>
+<script src="./assets/lib/angular-messages.js"></script>
+<script src="./assets/lib/angular-mocks.js"></script>
+<script src="./assets/lib/angular-parse-ext.js"></script>
+<script src="./assets/lib/angular-resource.js"></script>
+<script src="./assets/lib/angular-route.js"></script>
+<script src="./assets/lib/angular-sanitize.js"></script>
+<script src="./assets/lib/angular-touch.js"></script>
+<script src="./assets/lib/angular-material.min.js"></script>
+
+<script src="./assets/lib/firebase.js"></script>
+
+<script src="./assets/js/App.js"></script>
+<script src="./assets/js/AppDefine.js"></script>
+<script src="./assets/js/AppService.js"></script>
+<script src="./assets/js/Controllers/Shared/ToolbarController.js"></script>
+</body>
 </html>
