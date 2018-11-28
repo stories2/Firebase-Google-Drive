@@ -6,21 +6,6 @@ var app = angular.module('FDModule', ['ngCookies',
     'ngAria',
     'ngMaterial']);
 
-app.config(function($routeProvider) {
-    $routeProvider
-        .when("/", {
-            templateUrl : "templates/partials/Dashboard.html",
-            controller : "DashboardController",
-            cache: false,
-            disableCache: true,
-        })
-        .otherwise({
-        redirectTo: '/',
-        cache: false,
-        disableCache: true,
-    });
-});
-
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push(function ($q, $rootScope) {
         return {
