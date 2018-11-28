@@ -25,11 +25,11 @@
 
           <h2 flex md-truncate>{{ title }}</h2>
 
-          <div ng-controller="LoginController" ng-init="listenAuthStateChanged()">
-            <md-button ng-controller="DeployController" ng-if="isUserSignedIn" class="md-icon-button" aria-label="Favorite" ng-click="onBtnPublishClicked()">
-              <!--<md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>-->
-              <i class="fas fa-upload"></i>
-            </md-button>
+          <div>
+            <!--<md-button ng-controller="DeployController" ng-if="isUserSignedIn" class="md-icon-button" aria-label="Favorite" ng-click="onBtnPublishClicked()">-->
+              <!--&lt;!&ndash;<md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>&ndash;&gt;-->
+              <!--<i class="fas fa-upload"></i>-->
+            <!--</md-button>-->
 
             <md-button ng-if="isUserSignedIn" class="md-icon-button" aria-label="More" ng-click="signOutUser()">
               <!--<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>-->
