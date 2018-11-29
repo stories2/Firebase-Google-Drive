@@ -267,3 +267,4 @@ typings/
 
 # End of https://www.gitignore.io/api/node,firebase,intellij,intellij+iml,intellij+all
 .idea/vcs.xml
+functions/service-account.json

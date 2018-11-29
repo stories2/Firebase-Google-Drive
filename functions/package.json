@@ -9,8 +9,11 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.1.0"
+    "firebase-functions": "^2.1.0",
+    "raw-body": "^2.3.3"
   },
   "private": true
 }
