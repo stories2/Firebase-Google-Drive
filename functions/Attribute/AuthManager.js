@@ -1,7 +1,6 @@
 exports.verifyAuthToken = function(request, response, next) {
     var responseManager = require('../Utils/ResponseManager')
-    const adminManager = require('../Utils/FirebaseAdminManager')
-    const admin = adminManager.getAdminSDK()
+    const admin = global.admin
 
     try {
         token = request.get('Authorization')

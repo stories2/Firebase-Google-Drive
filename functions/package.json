@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "content-type": "^1.0.4",
     "cors": "^2.8.5",
     "fancy-log": "^1.3.3",
     "firebase-admin": "~6.0.0",
