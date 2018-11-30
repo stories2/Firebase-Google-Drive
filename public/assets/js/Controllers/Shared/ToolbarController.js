@@ -13,6 +13,21 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
 
                 $scope.$apply(function () {
                     $scope.isUserSignedIn = true
+
+                    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+                        .then(function(idToken) {
+                            // Send token to your backend via HTTPS
+                            // ...
+                            FDModuleService.printLogMessage("ToolbarController", "listenAuthStateChanged", "this is my token: " + idToken, LOG_LEVEL_DEBUG)
+                            FDModuleService.setToken(idToken)
+                            // SetTokenVal(idToken)
+                        })
+                        .catch(function(error) {
+                            // Handle error
+                            FDModuleService.printLogMessage("ToolbarController", "listenAuthStateChanged", "there is something problem", LOG_LEVEL_ERROR)
+                            // SetTokenVal("Something crashed. Shit!")
+                            FDModuleService.removeToken()
+                        });
                 })
                 // ...
             } else {
@@ -22,6 +37,7 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
 
                 $scope.$apply(function () {
                     $scope.isUserSignedIn = false
+                    FDModuleService.removeToken()
                 })
             }
         });

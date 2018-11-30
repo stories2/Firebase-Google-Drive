@@ -1,4 +1,4 @@
-app.service("FDModuleService", function ($log, $http) {
+app.service("FDModuleService", function ($log, $http, $window, $mdToast) {
 
     // Initialize Firebase
     var config = {
@@ -10,6 +10,26 @@ app.service("FDModuleService", function ($log, $http) {
         messagingSenderId: "776742216909"
     };
     firebase.initializeApp(config);
+
+    var setToken = function (tokenVal) {
+        $window.localStorage.setItem("token", tokenVal);
+        printLogMessage("FDModuleService", "setToken", "update token: " + tokenVal, LOG_LEVEL_DEBUG);
+    };
+    var getToken = function () {
+        var token = $window.localStorage.getItem("token");
+        printLogMessage("FDModuleService", "getToken", "return token: " + token, LOG_LEVEL_DEBUG);
+        return token == null || token === undefined ? undefined : token;
+    };
+    var removeToken = function () {
+        $window.localStorage.removeItem("token");
+        printLogMessage("FDModuleService", "removeToken", "token removed", LOG_LEVEL_INFO);
+    };
+    var showToast = function (text, delay) {
+        $mdToast.show($mdToast.simple()
+            .textContent(text)
+            .position("top right")
+            .hideDelay(delay));
+    };
 
     var printLogMessage = function (className, methodName, message, logLevel) {
         var logDateTime = new Date().toISOString();
@@ -132,6 +152,10 @@ app.service("FDModuleService", function ($log, $http) {
     return {
         'printLogMessage': printLogMessage,
         'postReq': postReq,
-        'getReq': getReq
+        'getReq': getReq,
+        'setToken': setToken,
+        'getToken': getToken,
+        'removeToken': removeToken,
+        'showToast': showToast,
     };
 });
