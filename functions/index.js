@@ -1,10 +1,9 @@
 //Global
 global.define = require('./Settings/DefineManager')
+global.log = require('./Utils/LogManager')
 //For firebase
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-//For logging
-var log = require('fancy-log');
 
 
 var serviceAccount = require("./service-account.json");
@@ -21,9 +20,10 @@ admin.initializeApp({
 //
 exports.helloWorld = functions.https.onRequest((request, response) => {
 
-    log.info(global.define.LOGGING_STRING_FORMAT, "index", "helloWorld", "this is test message with info level")
-    log.warn("this is", "warn", 1)
-    log.error("oh no!")
+    global.log.info("index", "helloWorld", "this is info")
+    global.log.debug("index", "helloWorld", "this is debug")
+    global.log.warn("index", "helloWorld", "this is warn")
+    global.log.error("index", "helloWorld", "this is error")
 
-    response.send("Hello from Firebase! - logging test");
+    response.send("Hello from Firebase! - logging test 2");
 });

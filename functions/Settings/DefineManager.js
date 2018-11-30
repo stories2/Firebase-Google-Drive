@@ -1,1 +1,5 @@
 exports.LOGGING_STRING_FORMAT = "[%s] {%s} (%s)"
+exports.LOGGING_STRING_FORMAT_INFO = "%s I: [%s] {%s} (%s)"
+exports.LOGGING_STRING_FORMAT_DEBUG = "%s D: [%s] {%s} (%s)"
+exports.LOGGING_STRING_FORMAT_WARN = "%s W: [%s] {%s} (%s)"
+exports.LOGGING_STRING_FORMAT_ERROR = "%s E: [%s] {%s} (%s)"
