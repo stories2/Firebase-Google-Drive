@@ -1,10 +1,10 @@
-exports.echo = function (request, response) {
+exports.fileUpload = function(request, response) {
     var responseManager = require('../Utils/ResponseManager')
 
     responseManager.ok(response, {})
 }
 
-exports.file = function (request, response) {
+exports.fileDownload = function (request, response) {
     var responseManager = require('../Utils/ResponseManager')
 
     responseManager.ok(response, {})

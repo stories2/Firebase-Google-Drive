@@ -24,8 +24,8 @@ exports.helloWorld = functions.https.onRequest(testRoute.helloWorld);
 privateApi.use(cors)
 privateApi.use(authAttribute.verifyAuthToken)
 privateApi.use(rawBodyAttribute.getRawBodyManager)
-privateApi.post('/', privateApiRoute.echo)
+privateApi.get('/file', privateApiRoute.fileDownload)
 privateApi.post('/file', [bodyParser.json(), bodyParser.urlencoded({
     extended: true,
-})], privateApiRoute.file)
+})], privateApiRoute.fileUpload)
 exports.privateApi = functions.https.onRequest(privateApi);
