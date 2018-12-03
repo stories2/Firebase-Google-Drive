@@ -5,9 +5,9 @@ exports.fileUpload = function(request, response) {
     fileManager.preprocessUploader(request, response, 
         function (uploadList) {
             global.log.debug("PrivateApiRoute", "fileUpload<preprocessUploader>", "file upload process finished: " + JSON.stringify(uploadList))
-        })
 
-    responseManager.ok(response, {})
+            responseManager.ok(response, uploadList)
+        })
 }
 
 exports.fileDownload = function (request, response) {

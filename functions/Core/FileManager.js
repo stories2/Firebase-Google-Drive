@@ -23,7 +23,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
         global.log.debug("FileManager", "preprocessUploader<file>", "processed file name: " + filename + " field name: " + fieldname + " encoding: " + encoding + " mimetype: " + mimetype)
 
         const filePath = path.join(tmpdir, filename)
-        uploads[fieldname] = filePath
+        // uploads[fieldname] = filePath
 
         var fileStream = fs.createWriteStream(filePath)
         var fileBuffer = new Buffer('')
@@ -42,8 +42,21 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
                 uuid: uniqueManager.generateUUID()
             }
             global.log.debug("FileManager", "preprocessUploader<end>", "file object buffer length: " + fileObject.buffer.length + " uuid: " + fileObject.uuid)
+            uploads[fieldname] = {
+                fieldname: fieldname,
+                originalname: filename,
+                encoding: encoding,
+                mimetype: mimetype,
+                uuid: fileObject.uuid
+            }
 
             saveFile2GoogleStorageFunc(fileObject, bucketManager, request.userRecordData)
+                .then(function (signedDownloadUrl) {
+                    global.log.debug("FileManager", "preprocessUploader<end>", "file saved and url generated: " + signedDownloadUrl)
+                })
+                .catch(function (error) {
+                    global.log.error("FileManager", "preprocessUploader<end>", "cannot save to google storage")
+                })
             request.file = fileObject
         })
 
