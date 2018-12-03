@@ -12,6 +12,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
 
     const fields = []
     const uploads = {}
+    var saveFile2GoogleStorageFunc = this.saveFile2GoogleStorage
 
     busboy.on('field', function (fieldname, val) {
         global.log.debug("FileManager", "preprocessUploader<file>", "processed field: " + fieldname + " / " + val)
@@ -42,13 +43,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
             }
             global.log.debug("FileManager", "preprocessUploader<end>", "file object buffer length: " + fileObject.buffer.length + " uuid: " + fileObject.uuid)
 
-            if(callbackFunc !== undefined) {
-                callbackFunc(fileObject, bucketManager)
-            }
-            else {
-                global.log.warn("FileManager", "preprocessUploader<end>", "callback func is undefined")
-            }
-
+            saveFile2GoogleStorageFunc(fileObject, bucketManager, request.userRecordData)
             request.file = fileObject
         })
 
@@ -59,6 +54,13 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
         for(const name in uploads) {
             const file = uploads[name]
             global.log.debug("FileManager", "preprocessUploader<finish>", "file " + file + " upload finished")
+        }
+
+        if(callbackFunc !== undefined) {
+            callbackFunc(uploads)
+        }
+        else {
+            global.log.warn("FileManager", "preprocessUploader<finish>", "callback func is undefined")
         }
     })
 

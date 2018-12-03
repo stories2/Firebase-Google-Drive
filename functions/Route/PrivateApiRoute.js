@@ -3,8 +3,8 @@ exports.fileUpload = function(request, response) {
     var responseManager = require('../Utils/ResponseManager')
 
     fileManager.preprocessUploader(request, response, 
-        function (fileObject, bucketManager) {
-            fileManager.saveFile2GoogleStorage(fileObject, bucketManager, request.userRecordData)
+        function (uploadList) {
+            global.log.debug("PrivateApiRoute", "fileUpload<preprocessUploader>", "file upload process finished: " + JSON.stringify(uploadList))
         })
 
     responseManager.ok(response, {})
