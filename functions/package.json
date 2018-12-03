@@ -13,6 +13,7 @@
     "busboy": "^0.2.14",
     "content-type": "^1.0.4",
     "cors": "^2.8.5",
+    "dateformat": "^3.0.3",
     "express": "^4.16.4",
     "fancy-log": "^1.3.3",
     "firebase-admin": "~6.0.0",

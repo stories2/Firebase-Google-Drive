@@ -70,8 +70,9 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
 
 exports.saveFile2GoogleStorage = function (fileObject, bucketManager, userRecordData) {
     var util = require('util')
+    var convertManager = require('../Utils/ConvertManager')
 
-    processPromise = new Promise(function (resolve, reject) {
+    var processPromise = new Promise(function (resolve, reject) {
         if(fileObject == null) {
             global.log.warn("FileManager", "saveFile2GoogleStorage", "file object is null, reject this")
             reject(global.define.PROMISE_FILE_UPLOAD_REJECT_EMPTY_FILE)
@@ -80,8 +81,46 @@ exports.saveFile2GoogleStorage = function (fileObject, bucketManager, userRecord
         global.log.debug("FileManager", "saveFile2GoogleStorage", "file will save as: " + fileObject.uuid)
 
         var fileSavePath = util.format(global.define.FORMAT_FILE_SAVE_PATH, userRecordData.uid, fileObject.uuid)
-        global.log.debug("FileManager", "saveFile2GoogleStorage", "file save path: " + fileSavePath)
+        global.log.debug("FileManager", "saveFile2GoogleStorage", "file save path: " + fileSavePath + " mimetype: " + fileObject.mimetype)
 
-        // fileUploader = bucketManager.file(fileSavePath)
+        var fileUploader = bucketManager.file(fileSavePath)
+        var blobStream = fileUploader.createWriteStream({
+            metadata: {
+                contentType: fileObject.mimetype
+            }
+        })
+
+        blobStream.on('error', function (error) {
+            global.log.error("FileManager", "saveFile2GoogleStorage", "cannot save file: " + JSON.stringify(error))
+            reject(global.define.PROMISE_FILE_UPLOAD_REJECT_SAVE_FILE_ERROR)
+        })
+
+        blobStream.on('finish', function () {
+            global.log.info("FileManager", "saveFile2GoogleStorage", "file saved")
+
+            var tomorrowDate = new Date()
+            tomorrowDate.setDate(tomorrowDate.getDate() + 1)
+            var tomorrowDateTimeStr = convertManager.date2FormattedDateTimeStr(tomorrowDate, global.define.FORMAT_DATE_TIME_YYYY_MM_DD)
+            global.log.debug("FileManager", "saveFile2GoogleStorage", "formatted datetime: " + tomorrowDateTimeStr)
+
+            fileUploader.getSignedUrl({
+                action: 'read',
+                expires: tomorrowDateTimeStr
+            })
+                .then(function (signedDownloadUrl) {
+                    global.log.debug("FileManager", "saveFile2GoogleStorage", "download link: " + signedDownloadUrl + " until: " + tomorrowDateTimeStr)
+
+                    resolve(signedDownloadUrl)
+                })
+                .catch(function (error) {
+                    global.log.error("FileManager", "saveFile2GoogleStorage", "cannot generate download link: " + JSON.stringify(error))
+
+                    reject(global.define.PROMISE_FILE_UPLOAD_REJECT_DOWNLOAD_URL_ERROR)
+                })
+        })
+
+        blobStream.end(fileObject.buffer)
     })
+
+    return processPromise
 }
