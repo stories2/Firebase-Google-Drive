@@ -4,7 +4,7 @@ exports.fileUpload = function(request, response) {
 
     fileManager.preprocessUploader(request, response, 
         function (fileObject, bucketManager) {
-            
+            fileManager.saveFile2GoogleStorage(fileObject, bucketManager, request.userRecordData)
         })
 
     responseManager.ok(response, {})

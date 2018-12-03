@@ -65,3 +65,21 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
     busboy.end(request.rawBody)
     request.pipe(busboy)
 }
+
+exports.saveFile2GoogleStorage = function (fileObject, bucketManager, userRecordData) {
+    var util = require('util')
+
+    processPromise = new Promise(function (resolve, reject) {
+        if(fileObject == null) {
+            global.log.warn("FileManager", "saveFile2GoogleStorage", "file object is null, reject this")
+            reject(global.define.PROMISE_FILE_UPLOAD_REJECT_EMPTY_FILE)
+        }
+
+        global.log.debug("FileManager", "saveFile2GoogleStorage", "file will save as: " + fileObject.uuid)
+
+        var fileSavePath = util.format(global.define.FORMAT_FILE_SAVE_PATH, userRecordData.uid, fileObject.uuid)
+        global.log.debug("FileManager", "saveFile2GoogleStorage", "file save path: " + fileSavePath)
+
+        // fileUploader = bucketManager.file(fileSavePath)
+    })
+}
