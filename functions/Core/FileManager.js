@@ -5,6 +5,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
     const path = require('path')
     const fs = require('fs')
     const bucketManager = admin.storage().bucket()
+    const uniqueManager = require('../Utils/UniqueManager')
 
     const busboy = new Busboy({headers: request.headers})
     const tmpdir = os.tmpdir()
@@ -36,9 +37,10 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
                 originalname: filename,
                 encoding,
                 mimetype,
-                buffer: fileBuffer
+                buffer: fileBuffer,
+                uuid: uniqueManager.generateUUID()
             }
-            global.log.debug("FileManager", "preprocessUploader<end>", "file object buffer length: " + fileObject.buffer.length)
+            global.log.debug("FileManager", "preprocessUploader<end>", "file object buffer length: " + fileObject.buffer.length + " uuid: " + fileObject.uuid)
 
             if(callbackFunc !== undefined) {
                 callbackFunc(fileObject, bucketManager)
