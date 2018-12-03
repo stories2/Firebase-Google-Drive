@@ -1,5 +1,5 @@
 exports.date2FormattedDateTimeStr = function (date, format) {
-    var dateFormat = require('dateFormat')
+    var dateFormat = require('dateformat')
 
     return dateFormat(date, format)
 }
