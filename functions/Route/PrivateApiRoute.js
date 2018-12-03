@@ -25,6 +25,16 @@ exports.fileDownload = function (request, response) {
             }
         })
     })
+}
 
+exports.fileInfo = function (request, response) {
+    var responseManager = require('../Utils/ResponseManager')
+    const fileManager = require('../Core/FileManager')
 
+    fileManager.getFileInfo(request, function (fileSnapshotInfo) {
+        responseManager.ok(response, {
+            success: fileSnapshotInfo !== undefined && JSON.stringify(fileSnapshotInfo) != null,
+            data: fileSnapshotInfo
+        })
+    })
 }
