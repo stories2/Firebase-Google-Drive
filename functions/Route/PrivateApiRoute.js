@@ -14,7 +14,17 @@ exports.fileUpload = function(request, response) {
 }
 
 exports.fileDownload = function (request, response) {
+    const fileManager = require('../Core/FileManager')
     var responseManager = require('../Utils/ResponseManager')
 
-    responseManager.ok(response, {})
+    fileManager.getDownloadLink(request, function (signedDownloadLink) {
+        responseManager.ok(response, {
+            success: signedDownloadLink !== undefined && signedDownloadLink != null,
+            data: {
+                link: signedDownloadLink
+            }
+        })
+    })
+
+
 }

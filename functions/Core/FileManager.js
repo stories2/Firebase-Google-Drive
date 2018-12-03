@@ -146,3 +146,55 @@ exports.saveFile2GoogleStorage = function (fileObject, bucketManager, userRecord
 
     return processPromise
 }
+
+exports.getDownloadLink = function (request, callbackFunc) {
+    const admin = global.admin
+    const bucketManager = admin.storage().bucket()
+    var convertManager = require('../Utils/ConvertManager')
+    var util = require('util')
+
+    var fileUUID = request.params["uuid"]
+    var userRecordData = request.userRecordData
+
+    if(fileUUID === undefined) {
+        if(callbackFunc !== undefined) {
+            global.log.warn("FileManager", "getDownloadLink", "request file uuid is null")
+            callbackFunc(undefined)
+            return
+        }
+        else {
+            global.log.warn("FileManager", "getDownloadLink", "callback func is undefined")
+        }
+    }
+
+    var fileSavePath = util.format(global.define.FORMAT_FILE_SAVE_PATH, userRecordData.uid, fileUUID)
+    var fileManager = bucketManager.file(fileSavePath)
+    var deadLineDate = new Date()
+    deadLineDate.setDate(deadLineDate.getDate() + 1)
+    var deadLineDateTimeStr = convertManager.date2FormattedDateTimeStr(deadLineDate, global.define.FORMAT_DATE_TIME_YYYY_MM_DD)
+    global.log.debug("FileManager", "getDownloadLink", "file " + fileUUID + " granted download deadline datetime: " + deadLineDateTimeStr)
+
+    fileManager.getSignedUrl({
+        action: 'read',
+        expires: deadLineDateTimeStr
+    })
+        .then(function (signedDownloadUrl) {
+            global.log.debug("FileManager", "getDownloadLink", "download link: " + signedDownloadUrl + " until: " + deadLineDateTimeStr)
+            if(callbackFunc !== undefined) {
+                callbackFunc(signedDownloadUrl)
+            }
+            else {
+                global.log.warn("FileManager", "getDownloadLink", "callback func is undefined")
+            }
+        })
+        .catch(function (error) {
+            global.log.error("FileManager", "getDownloadLink", "cannot generate download link: " + JSON.stringify(error))
+            if(callbackFunc !== undefined) {
+                callbackFunc(undefined)
+            }
+            else {
+                global.log.warn("FileManager", "getDownloadLink", "callback func is undefined")
+            }
+        })
+
+}
