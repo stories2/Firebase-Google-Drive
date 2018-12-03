@@ -199,25 +199,3 @@ exports.getDownloadLink = function (request, callbackFunc) {
 
 }
 
-exports.getFileInfo = function (request, callbackFunc) {
-    var admin = global.admin
-    var util = require('util')
-
-    var fileUUID = request.params["uuid"]
-    var userRecordData = request.userRecordData
-
-    var dbPath = util.format(global.define.DB_PATH_RESOURCES_UID_FILE_UUID, userRecordData.uid, fileUUID)
-
-    global.log.debug("FileManager", "getFileInfo", "search db path: " + dbPath)
-
-    admin.database().ref(dbPath).once("value", function (snapshot) {
-        global.log.debug("FileManager", "getFileInfo", "file detail info: " + JSON.stringify(snapshot))
-
-        if(callbackFunc !== undefined) {
-            callbackFunc(snapshot)
-        }
-        else {
-            global.log.warn("FileManager", "getFileInfo", "callback func is undefined")
-        }
-    })
-}
