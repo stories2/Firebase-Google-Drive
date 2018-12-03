@@ -13,6 +13,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
     const fields = []
     const uploads = {}
     var saveFile2GoogleStorageFunc = this.saveFile2GoogleStorage
+    var userRecordData = request.userRecordData
 
     busboy.on('field', function (fieldname, val) {
         global.log.debug("FileManager", "preprocessUploader<file>", "processed field: " + fieldname + " / " + val)
@@ -42,12 +43,20 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
                 uuid: uniqueManager.generateUUID()
             }
             global.log.debug("FileManager", "preprocessUploader<end>", "file object buffer length: " + fileObject.buffer.length + " uuid: " + fileObject.uuid)
+
+            var currentDate = new Date()
+
             uploads[fieldname] = {
                 fieldname: fieldname,
                 originalname: filename,
                 encoding: encoding,
                 mimetype: mimetype,
-                uuid: fileObject.uuid
+                uuid: fileObject.uuid,
+                length: fileObject.buffer.length,
+                uploaderUid: userRecordData.uid,
+                uploaderDisplayName: userRecordData.displayName,
+                uploadSec: currentDate.getTime() / 1000,
+                uploadDateTimeStr: currentDate.toISOString()
             }
 
             saveFile2GoogleStorageFunc(fileObject, bucketManager, request.userRecordData)
