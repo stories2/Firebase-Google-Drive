@@ -4,10 +4,10 @@ exports.fileUpload = function(request, response) {
     var responseManager = require('../Utils/ResponseManager')
 
     fileManager.preprocessUploader(request, response, 
-        function (uploadList) {
+        function (uploadList, fieldList) {
             global.log.debug("PrivateApiRoute", "fileUpload<preprocessUploader>", "file upload process finished: " + JSON.stringify(uploadList))
 
-            dbManager.registerFile2DB(request, uploadList, function () {
+            dbManager.registerFile2DB(request, uploadList, fieldList, function () {
                 responseManager.ok(response, uploadList)
             })
         })

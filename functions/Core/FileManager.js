@@ -79,7 +79,7 @@ exports.preprocessUploader = function (request, response, callbackFunc) {
         }
 
         if(callbackFunc !== undefined) {
-            callbackFunc(uploads)
+            callbackFunc(uploads, fields)
         }
         else {
             global.log.warn("FileManager", "preprocessUploader<finish>", "callback func is undefined")
