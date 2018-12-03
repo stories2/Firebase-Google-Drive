@@ -20,3 +20,5 @@ exports.PROMISE_FILE_UPLOAD_REJECT_DOWNLOAD_URL_ERROR = 'url crashed'
 exports.FORMAT_FILE_SAVE_PATH = "%s/%s"
 exports.FORMAT_DATE_TIME_DD_MM_YYYY = "dd-mm-yyyy"
 exports.FORMAT_DATE_TIME_YYYY_MM_DD = "yyyy-mm-dd"
+
+exports.DB_PATH_RESOURCES_UID_FILE_UUID = "/Resources/%s/%s/"
