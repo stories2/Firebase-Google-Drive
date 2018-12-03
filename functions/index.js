@@ -26,6 +26,7 @@ privateApi.use(authAttribute.verifyAuthToken)
 privateApi.use(rawBodyAttribute.getRawBodyManager)
 privateApi.get('/file/:uuid', privateApiRoute.fileInfo)
 privateApi.get('/file/share/:uuid', privateApiRoute.fileDownload)
+privateApi.post('/file/move/:uuid', privateApiRoute.fileMove)
 privateApi.post('/file', [bodyParser.json(), bodyParser.urlencoded({
     extended: true,
 })], privateApiRoute.fileUpload)

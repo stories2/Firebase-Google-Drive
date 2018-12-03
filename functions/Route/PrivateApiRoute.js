@@ -38,3 +38,15 @@ exports.fileInfo = function (request, response) {
         })
     })
 }
+
+exports.fileMove = function (request, response) {
+    var responseManager = require('../Utils/ResponseManager')
+    const dbManager = require('../Core/DBManager')
+
+    dbManager.moveFile(request, function () {
+        responseManager.ok(response, {
+            success: true,
+            data: undefined
+        })
+    })
+}

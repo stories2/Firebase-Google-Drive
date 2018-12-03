@@ -49,3 +49,31 @@ exports.getFileInfo = function (request, callbackFunc) {
         }
     })
 }
+
+exports.moveFile = function (request, callbackFunc) {
+    var admin = global.admin
+    var util = require('util')
+
+    var fileUUID = request.params["uuid"]
+    var userRecordData = request.userRecordData
+    var requestData = request.body
+
+    var dbPathSrc = util.format(global.define.DB_PATH_RESOURCES_UID_FILE_UUID, userRecordData.uid, requestData["src"], fileUUID)
+    var dbPathDest = util.format(global.define.DB_PATH_RESOURCES_UID_FILE_UUID, userRecordData.uid, requestData["dest"], fileUUID)
+
+    global.log.debug("DBManager", "moveFile", "move file from: " + dbPathSrc + " to: " + dbPathDest)
+
+    admin.database().ref(dbPathSrc).once("value", function (fileObjectSnapshot) {
+        global.log.debug("DBManager", "moveFile", "file detail info: " + JSON.stringify(fileObjectSnapshot))
+
+        admin.database().ref(dbPathDest + "/").set(JSON.parse(JSON.stringify(fileObjectSnapshot)))
+        admin.database().ref(dbPathSrc).set(null)
+
+        if(callbackFunc !== undefined) {
+            callbackFunc()
+        }
+        else {
+            global.log.warn("DBManager", "moveFile", "callback func is undefined")
+        }
+    })
+}
