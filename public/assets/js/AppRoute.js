@@ -2,7 +2,7 @@ app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl : "templates/default/index.html",
-            controller : null,
+            controller : "DefaultPageController",
             cache: false,
             disableCache: true,
         })
