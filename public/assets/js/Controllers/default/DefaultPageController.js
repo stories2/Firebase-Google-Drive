@@ -1,4 +1,4 @@
-app.controller("DefaultPageController", function ($scope, $http, $mdToast, $mdSidenav, FDModuleService) {
+app.controller("DefaultPageController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
     FDModuleService.printLogMessage("DefaultPageController", "DefaultPageController", "init", LOG_LEVEL_INFO);
 
@@ -9,6 +9,7 @@ app.controller("DefaultPageController", function ($scope, $http, $mdToast, $mdSi
                 FDModuleService.printLogMessage("DefaultPageController", "listenAuthStateChanged", "user signed in: " + JSON.stringify(user), LOG_LEVEL_DEBUG)
 
                 $scope.$apply(function () {
+                    $window.location.href = DEBUGGING_URL + "/#!/drive"
                 })
                 // ...
             } else {

@@ -6,6 +6,12 @@ app.config(function($routeProvider) {
             cache: false,
             disableCache: true,
         })
+        .when("/drive", {
+            templateUrl : "templates/drive/drive.html",
+            controller : null,
+            cache: false,
+            disableCache: true,
+        })
         .otherwise({
             redirectTo: '/',
             cache: false,
