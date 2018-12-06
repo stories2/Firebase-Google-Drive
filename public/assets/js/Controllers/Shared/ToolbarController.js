@@ -1,4 +1,4 @@
-app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidenav, FDModuleService) {
+app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
     $scope.isUserSignedIn = false;
     $scope.title = "Firebase Drive";
@@ -28,6 +28,7 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
                             // SetTokenVal("Something crashed. Shit!")
                             FDModuleService.removeToken()
                         });
+                    $window.location.href = DEBUGGING_URL + ROUTE_DRIVE_URL
                 })
                 // ...
             } else {
@@ -38,6 +39,7 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
                 $scope.$apply(function () {
                     $scope.isUserSignedIn = false
                     FDModuleService.removeToken()
+                    $window.location.href = DEBUGGING_URL + ROUTE_DEFAULT_URL
                 })
             }
         });

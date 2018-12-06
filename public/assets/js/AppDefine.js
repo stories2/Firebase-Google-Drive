@@ -6,3 +6,6 @@ var LOG_LEVEL_ERROR = 4;
 
 var DEBUGGING_URL = ""
 var DEBUGGING_URL = "/Firebase-Google-Drive/public" // <-- comment when you deploy this project
+
+var ROUTE_DEFAULT_URL = "/#!/"
+var ROUTE_DRIVE_URL = "/#!/drive"
