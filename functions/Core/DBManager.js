@@ -78,14 +78,44 @@ exports.moveFile = function (request, callbackFunc) {
     })
 }
 
-exports.directoryInfo = function (request, callback) {
+exports.directoryInfo = function (request, callbackFunc) {
     const admin = global.admin
-
+    var util = require('util')
+    var userRecordData = request.userRecordData
     var searchPath = request.query["path"] || global.define.DEFAULT_SEARCH_PATH
 
-    global.log.debug("FileManager", "directoryInfo", "search request: " + searchPath)
+    global.log.debug("DBManager", "directoryInfo", "search request: " + searchPath)
 
-    if(callback !== undefined) {
-        callback()
-    }
+    var dbPathDir = util.format(global.define.DB_PATH_RESOURCES_UID_SCAN_DIR, userRecordData.uid, searchPath)
+
+    global.log.debug("DBManager", "directoryInfo", "search db path: " + dbPathDir)
+
+    admin.database().ref(dbPathDir).once("value", function (dirSnapshot) {
+
+        global.log.debug("DBManager", "directoryInfo", "directory snapshot: " + JSON.stringify(dirSnapshot))
+
+        dirSnapshot = JSON.parse(JSON.stringify(dirSnapshot))
+
+        directoryStructureList = {}
+
+        for(key in dirSnapshot) {
+            if(dirSnapshot[key].hasOwnProperty("uuid")) {
+                global.log.debug("DBManager", "directoryInfo", "key: " + key + " is file")
+                directoryStructureList[key] = global.define.TYPE_FILE
+            }
+            else {
+                global.log.debug("DBManager", "directoryInfo", "key: " + key + " is folder")
+                directoryStructureList[key] = global.define.TYPE_FOLDER
+            }
+        }
+
+        global.log.debug("DBManager", "directoryInfo", "current dir structure: " + JSON.stringify(directoryStructureList))
+
+        if(callbackFunc !== undefined) {
+            callbackFunc(directoryStructureList)
+        }
+        else {
+            global.log.warn("DBManager", "directoryInfo", "callback fun is undefined")
+        }
+    })
 }

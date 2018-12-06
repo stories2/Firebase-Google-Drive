@@ -23,7 +23,11 @@ exports.FORMAT_DATE_TIME_YYYY_MM_DD = "yyyy-mm-dd"
 
 exports.DB_PATH_RESOURCES_UID_FILE_UUID = "/Resources/%s%s%s"
 exports.DB_PATH_RESOURCES_LIST_UID_UUID = "/ResourcesList/%s/%s"
+exports.DB_PATH_RESOURCES_UID_SCAN_DIR = "/Resources/%s%s"
 
 exports.FIELD_NAME_PATH = "path"
 
 exports.DEFAULT_SEARCH_PATH = "/"
+
+exports.TYPE_FILE = "file"
+exports.TYPE_FOLDER = "folder"

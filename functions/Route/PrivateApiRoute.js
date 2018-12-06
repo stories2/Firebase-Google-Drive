@@ -55,10 +55,10 @@ exports.scanDirectory = function (request, response) {
     var responseManager = require('../Utils/ResponseManager')
     const dbManager = require('../Core/DBManager')
 
-    dbManager.directoryInfo(request, function () {
+    dbManager.directoryInfo(request, function (directoryStructureList) {
         responseManager.ok(response, {
             success: true,
-            data: undefined
+            data: directoryStructureList
         })
     })
 }
