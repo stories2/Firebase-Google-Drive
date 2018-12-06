@@ -1,8 +1,9 @@
 app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
-    $scope.currentPath = "/new folder/sub folder/"
+    $scope.currentPath = "/"
     $scope.directoryStructure = {}
     $scope.floatingBtnIsOpen = false
+    $scope.file = {}
     FDModuleService.printLogMessage("DriveController", "DriveController", "init", LOG_LEVEL_INFO);
 
     $scope.close = function () {
@@ -31,6 +32,18 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
     $scope.enterTo = function (folderName) {
         $scope.currentPath = enterTo($scope.currentPath, folderName)
         getDirectoryStructure($scope.currentPath)
+    }
+    
+    $scope.showFileDetail = function (fileObject) {
+        FDModuleService.printLogMessage("DriveController", "showFileDetail", "open file: " + JSON.stringify(fileObject), LOG_LEVEL_DEBUG)
+        if($scope.isOpenRight() != true){
+            $scope.toggleRight()
+        }
+        setFileObject(fileObject)
+    }
+
+    function setFileObject(fileObject) {
+        $scope.file = fileObject
     }
     
     function enterTo(currentPath, folderName) {

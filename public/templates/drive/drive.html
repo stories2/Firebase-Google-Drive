@@ -34,7 +34,7 @@
                               md-colspan="1"
                               md-colspan-sm="1"
                               md-colspan-xs="1"
-                              style="background: #448aff;" ng-click="item.hasOwnProperty('uuid') != true ? enterTo(key) : false" >
+                              style="background: #448aff;" ng-click="item.hasOwnProperty('uuid') != true ? enterTo(key) : showFileDetail(item)" >
                     <md-icon class="fas fa-2x fa-folder-open" ng-if="item.hasOwnProperty('uuid') != true"></md-icon>
                     <h2 style="text-align: center;color:white" ng-if="item.mimetype" layout-padding>{{item.mimetype}}</h2>
                     <md-grid-tile-footer style="background: rgba(0, 0, 0, 0.68);height: 36px;width: 100%;">
@@ -83,19 +83,43 @@
 <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
 
     <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+        <h1 class="md-toolbar-tools">{{file.originalname}}</h1>
     </md-toolbar>
     <md-content layout-padding>
-        <form>
-            <md-input-container>
-                <label for="testInput">Test input</label>
-                <input type="text" id="testInput"
-                       ng-model="data" md-autofocus>
-            </md-input-container>
-        </form>
-        <md-button ng-click="close()" class="md-primary">
-            Close Sidenav Right
-        </md-button>
+        <md-list>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <h3>Mimetype</h3>
+                    <h4>{{file.mimetype}}</h4>
+                </div>
+            </md-list-item>
+
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <h3>Size</h3>
+                    <h4>{{file.length}}</h4>
+                </div>
+            </md-list-item>
+
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <h3>Upload date</h3>
+                    <h4>{{file.uploadDateTimeStr}}</h4>
+                </div>
+            </md-list-item>
+
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <h3>Uploader</h3>
+                    <h4>{{file.uploaderDisplayName}}</h4>
+                </div>
+            </md-list-item>
+        </md-list>
+        <div layout="row">
+            <md-button flex class="fas fa-file-download"></md-button>
+            <md-button flex class="fas fa-share-alt"></md-button>
+        </div>
+
     </md-content>
 
 </md-sidenav>
