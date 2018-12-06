@@ -2,6 +2,7 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
 
     $scope.currentPath = "/new folder/sub folder/"
     $scope.directoryStructure = {}
+    $scope.floatingBtnIsOpen = false
     FDModuleService.printLogMessage("DriveController", "DriveController", "init", LOG_LEVEL_INFO);
 
     $scope.close = function () {
