@@ -23,11 +23,21 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
     }
 
     $scope.goBack = function () {
-        $scope.currentPath = movePath($scope.currentPath)
+        $scope.currentPath = moveBackPath($scope.currentPath)
+        getDirectoryStructure($scope.currentPath)
+    }
+
+    $scope.enterTo = function (folderName) {
+        $scope.currentPath = enterTo($scope.currentPath, folderName)
         getDirectoryStructure($scope.currentPath)
     }
     
-    function movePath(currentPath) {
+    function enterTo(currentPath, folderName) {
+        FDModuleService.printLogMessage("DriveController", "enterTo", "path: " + currentPath + " -> " + folderName, LOG_LEVEL_DEBUG)
+        return currentPath + folderName + "/"
+    }
+    
+    function moveBackPath(currentPath) {
         if(currentPath == "/") {
             return
         }

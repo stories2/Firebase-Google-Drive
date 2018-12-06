@@ -34,7 +34,7 @@
                               md-colspan="1"
                               md-colspan-sm="1"
                               md-colspan-xs="1"
-                              style="background: #448aff;" >
+                              style="background: #448aff;" ng-click="item.hasOwnProperty('uuid') != true ? enterTo(key) : false" >
                     <md-icon class="fas fa-2x fa-folder-open" ng-if="item.hasOwnProperty('uuid') != true"></md-icon>
                     <h2 style="text-align: center;color:white" ng-if="item.mimetype" layout-padding>{{item.mimetype}}</h2>
                     <md-grid-tile-footer style="background: rgba(0, 0, 0, 0.68);height: 36px;width: 100%;">
