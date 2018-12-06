@@ -5,18 +5,18 @@
         <div layout="row">
             <md-toolbar >
                 <div class="md-toolbar-tools">
-                    <!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">-->
-                        <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
+                    <!--<md-button class="md-icon-button" aria-label="go back" ng-if="currentPath != '/'">-->
+                        <!--<md-icon class="fas fa-arrow-left"></md-icon>-->
                     <!--</md-button>-->
 
                     <h2 flex md-truncate>{{currentPath}}</h2>
 
-                    <md-button class="md-icon-button" aria-label="Favorite">
-                        <md-icon md-svg-icon="img/icons/favorite.svg" class="favorite-icon"></md-icon>
+                    <md-button class="md-icon-button" aria-label="edit path">
+                        <md-icon class="fas fa-edit"></md-icon>
                     </md-button>
 
-                    <md-button class="md-icon-button" aria-label="More">
-                        <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+                    <md-button class="md-icon-button" aria-label="go back" ng-if="currentPath != '/'">
+                        <md-icon class="fas fa-arrow-left"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>

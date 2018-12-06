@@ -22,6 +22,7 @@
         <div class="md-toolbar-tools" >
           <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
             <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
+            <img ng-src="{{userPictureUrl}}" ng-if="userPictureUrl" style="border-radius: 50%;width:32px;height: auto;">
           </md-button>
 
           <h2 flex md-truncate>{{ title }}</h2>

@@ -1,5 +1,6 @@
 app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
+    $scope.userPictureUrl = undefined;
     $scope.isUserSignedIn = false;
     $scope.title = "Firebase Drive";
 
@@ -13,6 +14,7 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
 
                 $scope.$apply(function () {
                     $scope.isUserSignedIn = true
+                    $scope.userPictureUrl = user["photoURL"]
 
                     firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
                         .then(function(idToken) {

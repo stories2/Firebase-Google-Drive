@@ -1,6 +1,6 @@
 app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
-    $scope.currentPath = "/"
+    $scope.currentPath = "/new folder/sub folder/"
     $scope.directoryStructure = {}
     FDModuleService.printLogMessage("DriveController", "DriveController", "init", LOG_LEVEL_INFO);
 
