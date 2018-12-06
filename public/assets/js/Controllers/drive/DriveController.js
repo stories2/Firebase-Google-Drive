@@ -22,6 +22,24 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
         getDirectoryStructure($scope.currentPath)
     }
 
+    $scope.goBack = function () {
+        $scope.currentPath = movePath($scope.currentPath)
+        getDirectoryStructure($scope.currentPath)
+    }
+    
+    function movePath(currentPath) {
+        if(currentPath == "/") {
+            return
+        }
+        var path = currentPath.split("/")
+        path.pop()
+        FDModuleService.printLogMessage("DriveController", "movePath", "path: " + JSON.stringify(path), LOG_LEVEL_DEBUG)
+
+        path.pop()
+        currentPath = path.join("/") + "/"
+        return currentPath
+    }
+
     function getDirectoryStructure(currentPath) {
 
         var payload = {
