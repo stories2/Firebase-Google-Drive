@@ -66,9 +66,11 @@ app.service("FDModuleService", function ($log, $http, $window, $mdToast) {
         }
         return;
     };
-    var postReq = function (url, data, successFunc, failFunc, token) {
+    var postReq = function (url, data, successFunc, failFunc) {
         printLogMessage("FDModuleService", "postReq", "send data to url: " + url, LOG_LEVEL_INFO);
         // data["seconds"] = this.PreventCache()
+        var token = getToken()
+
         if(token !== undefined) {
             $http.defaults.headers.common['Authorization'] = token
             printLogMessage("FDModuleService", "postReq", "request with token", LOG_LEVEL_INFO)
@@ -107,9 +109,11 @@ app.service("FDModuleService", function ($log, $http, $window, $mdToast) {
                 failFunc(xhr.responseText, textStatus);
             });
     };
-    var getReq = function (url, data, successFunc, failFunc, token) {
+    var getReq = function (url, data, successFunc, failFunc) {
         printLogMessage("FDModuleService", "getReq", "send data to url: " + url, LOG_LEVEL_INFO);
         // data["seconds"] = this.PreventCache()
+        var token = getToken()
+
         if(token !== undefined) {
             $http.defaults.headers.common['Authorization'] = token
             printLogMessage("FDModuleService", "getReq", "request with token", LOG_LEVEL_INFO)
