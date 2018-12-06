@@ -1,24 +1,44 @@
-<md-content flex layout-padding ng-init="onLoad()">
+<md-content flex ng-init="onLoad()">
 
     <div layout="column" >
 
         <div layout="row">
+            <md-toolbar >
+                <div class="md-toolbar-tools">
+                    <!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">-->
+                        <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
+                    <!--</md-button>-->
+
+                    <h2 flex md-truncate>{{currentPath}}</h2>
+
+                    <md-button class="md-icon-button" aria-label="Favorite">
+                        <md-icon md-svg-icon="img/icons/favorite.svg" class="favorite-icon"></md-icon>
+                    </md-button>
+
+                    <md-button class="md-icon-button" aria-label="More">
+                        <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+        </div>
+
+        <div layout="row">
 
             <md-grid-list
-                    md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+                    md-cols-xs="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="6"
                     md-row-height-gt-md="1:1" md-row-height="2:2"
                     md-gutter="12px" md-gutter-gt-sm="8px" style="margin: 8px;" flex>
 
-                <md-grid-tile
+                <md-grid-tile ng-repeat="(key, item) in directoryStructure"
                               md-rowspan="1"
                               md-colspan="1"
                               md-colspan-sm="1"
                               md-colspan-xs="1"
-                              style="background: #84ffff;" >
-                    <!--<md-icon md-svg-icon=""></md-icon>-->
-                    <h2 style="text-align: center;color:white">image/png</h2>
+                              style="background: #448aff;" >
+                    <md-icon class="fas fa-2x fa-folder-open" ng-if="item.hasOwnProperty('uuid') != true"></md-icon>
+                    <h2 style="text-align: center;color:white" ng-if="item.mimetype" layout-padding>{{item.mimetype}}</h2>
                     <md-grid-tile-footer style="background: rgba(0, 0, 0, 0.68);height: 36px;width: 100%;">
-                        <h3 style="margin: 0;font-weight: 700;width: 100%;text-align: center;">hello</h3>
+                        <h3 style="margin: 0;font-weight: 700;width: 100%;text-align: center;" layout-padding>{{item.originalname || key}}</h3>
                     </md-grid-tile-footer>
                 </md-grid-tile>
             </md-grid-list>
