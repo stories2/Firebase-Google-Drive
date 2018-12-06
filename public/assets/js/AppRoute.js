@@ -8,7 +8,7 @@ app.config(function($routeProvider) {
         })
         .when("/drive", {
             templateUrl : "templates/drive/drive.html",
-            controller : null,
+            controller : "DriveController",
             cache: false,
             disableCache: true,
         })
