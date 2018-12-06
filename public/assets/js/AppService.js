@@ -124,13 +124,14 @@ app.service("FDModuleService", function ($log, $http, $window, $mdToast) {
             dataType: 'json',
             url: url,
             cache: false,
-            contentType: 'application/x-www-form-urlencoded',
+            contentType: 'application/json',
             params: data,
             async: false,
             crossDomain: true,
-            // headers: {
-            //     "Authorization": token
-            // },
+            data: '',
+            headers: {
+                "Content-Type": "application/json"
+            },
             xhrFields: {
                 withCredentials: false
             },

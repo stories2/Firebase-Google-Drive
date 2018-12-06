@@ -1,5 +1,6 @@
 app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
 
+    $scope.currentPath = "/"
     FDModuleService.printLogMessage("DriveController", "DriveController", "init", LOG_LEVEL_INFO);
 
     $scope.close = function () {
@@ -15,6 +16,28 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
     };
 
     $scope.toggleRight = buildToggler('right');
+
+    $scope.onLoad = function () {
+        getDirectoryStructure($scope.currentPath)
+    }
+
+    function getDirectoryStructure(currentPath) {
+
+        var payload = {
+            path: currentPath
+        }
+
+        FDModuleService.getReq(
+            API_GET_DIRECTORY_STRUCTURE,
+            payload,
+            function (data) {
+                FDModuleService.printLogMessage("DriveController", "getDirectoryStructure", "current dir structure: " + JSON.stringify(data), LOG_LEVEL_DEBUG)
+            },
+            function (error) {
+                FDModuleService.printLogMessage("DriveController", "getDirectoryStructure", "cannot get dir structure", LOG_LEVEL_ERROR)
+            }
+        )
+    }
 
     function buildToggler(navID) {
         return function() {

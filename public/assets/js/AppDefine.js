@@ -9,3 +9,5 @@ var DEBUGGING_URL = "/Firebase-Google-Drive/public" // <-- comment when you depl
 
 var ROUTE_DEFAULT_URL = "/#!/"
 var ROUTE_DRIVE_URL = "/#!/drive"
+
+var API_GET_DIRECTORY_STRUCTURE = "https://us-central1-fir-drive-4df77.cloudfunctions.net/privateApi/dir/"
