@@ -198,4 +198,3 @@ exports.getDownloadLink = function (request, callbackFunc) {
         })
 
 }
-

@@ -77,3 +77,15 @@ exports.moveFile = function (request, callbackFunc) {
         }
     })
 }
+
+exports.directoryInfo = function (request, callback) {
+    const admin = global.admin
+
+    var searchPath = request.query["path"] || global.define.DEFAULT_SEARCH_PATH
+
+    global.log.debug("FileManager", "directoryInfo", "search request: " + searchPath)
+
+    if(callback !== undefined) {
+        callback()
+    }
+}

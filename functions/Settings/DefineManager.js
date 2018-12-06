@@ -25,3 +25,5 @@ exports.DB_PATH_RESOURCES_UID_FILE_UUID = "/Resources/%s%s%s"
 exports.DB_PATH_RESOURCES_LIST_UID_UUID = "/ResourcesList/%s/%s"
 
 exports.FIELD_NAME_PATH = "path"
+
+exports.DEFAULT_SEARCH_PATH = "/"

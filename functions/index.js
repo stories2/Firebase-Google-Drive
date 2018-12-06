@@ -30,4 +30,5 @@ privateApi.post('/file/move/:uuid', privateApiRoute.fileMove)
 privateApi.post('/file', [bodyParser.json(), bodyParser.urlencoded({
     extended: true,
 })], privateApiRoute.fileUpload)
+privateApi.get('/dir', privateApiRoute.scanDirectory)
 exports.privateApi = functions.https.onRequest(privateApi);
