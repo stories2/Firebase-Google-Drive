@@ -124,7 +124,7 @@
                 <md-list-item class="md-2-line" ng-repeat="link in linkList">
                     <div class="md-list-item-text">
                         <h3>Download link</h3>
-                        <a flex target="_self" ng-href="link" download="{{file.originalname}}">{{file.originalname}}</a>
+                        <a flex target="_self" ng-href="{{link}}" download="{{file.originalname}}">{{file.originalname}}</a>
                     </div>
                 </md-list-item>
             </md-list>
