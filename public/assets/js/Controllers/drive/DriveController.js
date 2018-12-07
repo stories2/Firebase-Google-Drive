@@ -4,6 +4,7 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
     $scope.directoryStructure = {}
     $scope.floatingBtnIsOpen = false
     $scope.file = {}
+    $scope.linkList = []
     FDModuleService.printLogMessage("DriveController", "DriveController", "init", LOG_LEVEL_INFO);
 
     $scope.close = function () {
@@ -40,6 +41,34 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
             $scope.toggleRight()
         }
         setFileObject(fileObject)
+    }
+
+    $scope.downloadFile = function (fileObject) {
+        FDModuleService.printLogMessage("DriveController", "downloadFile", "download file: " + JSON.stringify(fileObject), LOG_LEVEL_DEBUG)
+        getDownloadLink(fileObject.uuid)
+    }
+
+    function getDownloadLink(fileUUID) {
+
+        var payload = {
+
+        }
+
+        FDModuleService.getReq(
+            API_GET_FILE_DOWNLOAD_LINK + fileUUID,
+            payload,
+            function (data) {
+                FDModuleService.printLogMessage("DriveController", "getDownloadLink", "link: " + JSON.stringify(data), LOG_LEVEL_DEBUG)
+                initDownloadLinkList(data)
+            },
+            function (error) {
+                FDModuleService.printLogMessage("DriveController", "getDownloadLink", "cannot get link: " + JSON.stringify(error), LOG_LEVEL_ERROR)
+            }
+        )
+    }
+
+    function initDownloadLinkList(data) {
+        $scope.linkList = data["data"]["data"]["link"]
     }
 
     function setFileObject(fileObject) {

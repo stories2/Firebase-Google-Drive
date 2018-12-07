@@ -23,6 +23,7 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
                             FDModuleService.printLogMessage("ToolbarController", "listenAuthStateChanged", "this is my token: " + idToken, LOG_LEVEL_DEBUG)
                             FDModuleService.setToken(idToken)
                             // SetTokenVal(idToken)
+                            $window.location.href = DEBUGGING_URL + ROUTE_DRIVE_URL
                         })
                         .catch(function(error) {
                             // Handle error
@@ -30,7 +31,6 @@ app.controller("ToolbarController", function ($scope, $http, $mdToast, $mdSidena
                             // SetTokenVal("Something crashed. Shit!")
                             FDModuleService.removeToken()
                         });
-                    $window.location.href = DEBUGGING_URL + ROUTE_DRIVE_URL
                 })
                 // ...
             } else {

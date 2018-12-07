@@ -116,8 +116,18 @@
             </md-list-item>
         </md-list>
         <div layout="row">
-            <md-button flex class="fas fa-file-download"></md-button>
+            <md-button flex class="fas fa-file-download" ng-click="downloadFile(file)"></md-button>
             <md-button flex class="fas fa-share-alt"></md-button>
+        </div>
+        <div layout="row">
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="link in linkList">
+                    <div class="md-list-item-text">
+                        <h3>Download link</h3>
+                        <a flex target="_self" ng-href="link" download="{{file.originalname}}">{{file.originalname}}</a>
+                    </div>
+                </md-list-item>
+            </md-list>
         </div>
 
     </md-content>
