@@ -1,8 +1,8 @@
 # Firebase-Google-Drive
 Use firebase as google drive
 
-<img src="src/IMG_1508.PNG" style="max-width:300px;"/>
-<img src="src/IMG_1510.PNG" style="max-width:300px;"/>
+<img src="src/IMG_1508.PNG" style="width:300px;"/>
+<img src="src/IMG_1510.PNG" style="width:300px;"/>
 
 ## Getting Started
 
