@@ -12,14 +12,19 @@
     <form name="fileUploadForm">
         <div layout="row" layout-align="center center" layout-fill>
             <div layout-margin layout-padding>
-                <input class="ng-hide" id="input-file-id"  type="file" required ng-model="uploadForm" /> <!-- multiple -->
+                <input class="ng-hide" name="input-file-id" id="input-file-id"  type="file" custom-on-change="onFileChanged" /> <!-- multiple -->
                 <label for="input-file-id" class="md-button md-raised md-primary">Choose File</label>
             </div>
         </div>
         <div layout="row" layout-align="center center" layout-fill>
             <div layout-margin layout-padding>
-                <md-button type="submit" id="btnSubmit" class="ng-hide md-button md-primary" ng-click="uploadFormData()"></md-button>
-                <label for="btnSubmit" class="md-button md-raised md-primary" >Submit</label>
+                <input class="ng-hide"  type="text" name="path" id="path" required ng-model="currentPath" />
+            </div>
+        </div>
+        <div layout="row" layout-align="center center" layout-fill>
+            <div layout-margin layout-padding>
+                <md-button type="submit" id="btnSubmit" class="ng-hide md-button md-primary" ng-click="uploadFormData()" ng-disabled="isUploading"></md-button>
+                <label for="btnSubmit" class="md-button md-raised md-primary" ng-disabled="isUploading">Submit</label>
             </div>
         </div>
     </form>

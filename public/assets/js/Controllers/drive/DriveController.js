@@ -1,4 +1,4 @@
-app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, $mdDialog, FDModuleService) {
+app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, $mdDialog, Upload, FDModuleService) {
 
     $scope.currentPath = "/"
     $scope.directoryStructure = {}
@@ -56,12 +56,15 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
             templateUrl: DEBUGGING_URL + '/templates/dialog/upload.html',
             parent: angular.element(document.body),
             // targetEvent: ev,
-            clickOutsideToClose:true
+            clickOutsideToClose:true,
+            locals: {
+                currentPath: $scope.currentPath
+            }
         })
             .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
+                getDirectoryStructure($scope.currentPath)
             }, function() {
-                $scope.status = 'You cancelled the dialog.';
+                getDirectoryStructure($scope.currentPath)
             });
     }
 
@@ -87,9 +90,11 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
         });
     }
 
-    function uploadDialogController($scope, $mdDialog) {
+    function uploadDialogController($scope, $mdDialog, currentPath) {
         $scope.uploadForm = {}
         $scope.uploadProgress = 0
+        $scope.isUploading = false
+        $scope.currentPath = currentPath
 
         $scope.hide = function() {
             $mdDialog.hide();
@@ -103,8 +108,50 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
             $mdDialog.hide(answer);
         };
 
+        $scope.onFileChanged = function() {
+            $scope.uploadForm["file"] = event.target.files[0]
+            FDModuleService.printLogMessage("uploadDialogController", "onFileChanged", "file selected: " + $scope.uploadForm["file"].name, LOG_LEVEL_DEBUG)
+        }
+
         $scope.uploadFormData = function () {
             FDModuleService.printLogMessage("uploadDialogController", "uploadFormData", "form: " + JSON.stringify($scope.uploadForm), LOG_LEVEL_DEBUG)
+
+            if($scope.fileUploadForm.$valid) {
+                FDModuleService.printLogMessage("uploadDialogController", "uploadFormData", "form is valid, start upload", LOG_LEVEL_INFO)
+                $scope.isUploading = true
+                $scope.uploadProgress = 10
+                $scope.uploadForm["path"] = $scope.currentPath
+
+                uploadFile()
+            }
+            else {
+                FDModuleService.printLogMessage("uploadDialogController", "uploadFormData", "form is not valid", LOG_LEVEL_WARN)
+            }
+        }
+
+        function uploadFile() {
+            Upload.upload({
+                url: API_POST_FILE_UPLOAD,
+                data: $scope.uploadForm,
+                headers: {'Authorization': FDModuleService.getToken()},
+            })
+                .success(function (data) {
+                        FDModuleService.printLogMessage("uploadDialogController", "uploadFile<success>", "file uploaded successfully: " + JSON.stringify(data), LOG_LEVEL_DEBUG)
+                        $scope.isUploading = false
+                        $scope.uploadProgress = 100
+                        FDModuleService.showToast(TOAST_FILE_UPLOAD_OK, TOAST_SHOW_SHORT)
+                },
+                    function (exception) {
+                        FDModuleService.printLogMessage("uploadDialogController", "uploadFile<exception>", "cannot upload file: " + JSON.stringify(exception), LOG_LEVEL_ERROR)
+                        $scope.isUploading = false
+                        $scope.uploadProgress = 100
+                        FDModuleService.showToast(TOAST_FILE_UPLOAD_FAIL, TOAST_SHOW_LONG)
+                    },
+                    function (progress) {
+                        $scope.uploadProgress = 0
+                        $scope.uploadProgress = 100.0 * Number(progress.loaded) / Number(progress.total)
+                        FDModuleService.printLogMessage("uploadDialogController", "uploadFile<progress>", "file uploading: " + $scope.uploadProgress, LOG_LEVEL_DEBUG)
+                    })
         }
     }
 
