@@ -1,4 +1,4 @@
-app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, FDModuleService) {
+app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav, $window, $mdDialog, FDModuleService) {
 
     $scope.currentPath = "/"
     $scope.directoryStructure = {}
@@ -46,6 +46,28 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
     $scope.downloadFile = function (fileObject) {
         FDModuleService.printLogMessage("DriveController", "downloadFile", "download file: " + JSON.stringify(fileObject), LOG_LEVEL_DEBUG)
         getDownloadLink(fileObject.uuid)
+    }
+
+    $scope.editPath = function () {
+        var currnetPath = $scope.currentPath
+        var confirm = $mdDialog.prompt()
+            .title('경로 이동')
+            .textContent('이동할 경로를 입력하세요')
+            .placeholder('/')
+            // .ariaLabel('Dog name')
+            .initialValue($scope.currentPath)
+            // .targetEvent(ev)
+            .required(true)
+            .ok('Go!')
+            .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function(result) {
+            $scope.currentPath = result;
+            getDirectoryStructure($scope.currentPath)
+        }, function() {
+            $scope.currentPath = currnetPath;
+            getDirectoryStructure($scope.currentPath)
+        });
     }
 
     function getDownloadLink(fileUUID) {
