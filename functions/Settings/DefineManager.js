@@ -5,6 +5,7 @@ exports.LOGGING_STRING_FORMAT_WARN = "%s W: [%s] {%s} (%s)"
 exports.LOGGING_STRING_FORMAT_ERROR = "%s E: [%s] {%s} (%s)"
 
 exports.UPLOAD_FILE_SIZE_LIMIT_5MB = "5mb"
+exports.UPLOAD_FILE_SIZE_LIMIT_1GB = "1024mb"
 
 exports.HTTP_CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 
