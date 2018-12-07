@@ -48,6 +48,23 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
         getDownloadLink(fileObject.uuid)
     }
 
+    $scope.showUploadDialog = function() {
+        FDModuleService.printLogMessage("DriveController", "showUploadDialog", "open upload dialog", LOG_LEVEL_INFO)
+
+        $mdDialog.show({
+            controller: uploadDialogController,
+            templateUrl: DEBUGGING_URL + '/templates/dialog/upload.html',
+            parent: angular.element(document.body),
+            // targetEvent: ev,
+            clickOutsideToClose:true
+        })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+    }
+
     $scope.editPath = function () {
         var currnetPath = $scope.currentPath
         var confirm = $mdDialog.prompt()
@@ -68,6 +85,27 @@ app.controller("DriveController", function ($scope, $http, $mdToast, $mdSidenav,
             $scope.currentPath = currnetPath;
             getDirectoryStructure($scope.currentPath)
         });
+    }
+
+    function uploadDialogController($scope, $mdDialog) {
+        $scope.uploadForm = {}
+        $scope.uploadProgress = 0
+
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+        };
+
+        $scope.uploadFormData = function () {
+            FDModuleService.printLogMessage("uploadDialogController", "uploadFormData", "form: " + JSON.stringify($scope.uploadForm), LOG_LEVEL_DEBUG)
+        }
     }
 
     function getDownloadLink(fileUUID) {

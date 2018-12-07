@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+<md-dialog style="
+    min-width: 100%;
+    min-height: 100%;
+    background-color: rgba(0, 0, 0, 0) !important;" layout="column">
+
+    <div layout="row" layout-align="end start">
+        <md-button style="min-width:64px; min-height: 64px;" ng-click="hide()">
+            <div class="fas fa-2x fa-times" style="color:white"></div>
+        </md-button>
+    </div>
+    <form name="fileUploadForm">
+        <div layout="row" layout-align="center center" layout-fill>
+            <div layout-margin layout-padding>
+                <input class="ng-hide" id="input-file-id"  type="file" required ng-model="uploadForm" /> <!-- multiple -->
+                <label for="input-file-id" class="md-button md-raised md-primary">Choose File</label>
+            </div>
+        </div>
+        <div layout="row" layout-align="center center" layout-fill>
+            <div layout-margin layout-padding>
+                <md-button type="submit" id="btnSubmit" class="ng-hide md-button md-primary" ng-click="uploadFormData()"></md-button>
+                <label for="btnSubmit" class="md-button md-raised md-primary" >Submit</label>
+            </div>
+        </div>
+    </form>
+
+    <div layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-circular md-mode="determinate" value="{{uploadProgress}}"></md-progress-circular>
+    </div>
+
+</md-dialog>
